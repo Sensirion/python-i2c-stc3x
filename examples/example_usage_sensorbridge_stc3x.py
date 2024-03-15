@@ -37,8 +37,7 @@ with ShdlcSerialPort(port=args.serial_port, baudrate=460800) as port:
     time.sleep(0.014)
 
     #     Output the product identifier and serial number
-    (product_id, serial_number
-     ) = sensor.get_product_id()
+    (product_id, serial_number) = sensor.get_product_id()
     print(f"Product id = {product_id}"
           )
     print(f"Serial Number = {serial_number}"
@@ -64,7 +63,5 @@ with ShdlcSerialPort(port=args.serial_port, baudrate=460800) as port:
          ) = sensor.measure_gas_concentration()
 
         #     Print CO2 concentration in Vol% and temperature in degree celsius.
-        print(f"CO2 concentration = {co2_concentration}"
-              )
-        print(f"Temperature = {temperature}"
-              )
+        print(f"CO2 concentration = {co2_concentration}")
+        print(f"Temperature = {temperature}")

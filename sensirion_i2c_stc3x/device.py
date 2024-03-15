@@ -17,13 +17,14 @@ sensor.
 
 from sensirion_driver_adapters.transfer import execute_transfer
 from sensirion_driver_support_types.mixin_access import MixinAccess
+
 from sensirion_i2c_stc3x.commands import (ApplyState, DisableAutomaticSelfCalibration, DisableStrongFilter,
                                           DisableWeakFilter, EnableAutomaticSelfCalibration, EnableStrongFilter,
                                           EnableWeakFilter, EnterSleepMode, ExitSleepMode, ForcedRecalibration,
-                                          MeasureGasConcentrationRaw, PrepareProductIdentifier, PrepareReadState,
+                                          PrepareProductIdentifier, PrepareReadState,
                                           ReadProductIdentifier, ReadSensorState, SelfTest, SetBinaryGas, SetPressure,
-                                          SetRelativeHumidityRaw, SetTemperatureRaw, TestResultT, WriteSensorState)
-
+                                          SetRelativeHumidityRaw, SetTemperatureRaw, TestResultT, WriteSensorState,
+                                          MeasureGasConcentrationRawFast, MeasureGasConcentrationRawSlow)
 from sensirion_i2c_stc3x.result_types import (SignalGasConcentration, SignalTemperature)
 
 
@@ -32,6 +33,7 @@ class Stc3xDeviceBase:
 
     def __init__(self, channel):
         self._channel = channel
+        self._measurement_command = MeasureGasConcentrationRawFast()
 
     @property
     def channel(self):
@@ -69,6 +71,10 @@ class Stc3xDeviceBase:
                 sensor.set_binary_gas(19)
 
         """
+        if binary_gas < 0x10:
+            self._measurement_command = MeasureGasConcentrationRawFast()
+        else:
+            self._measurement_command = MeasureGasConcentrationRawSlow()
         transfer = SetBinaryGas(binary_gas)
         return execute_transfer(self._channel, transfer)
 
@@ -146,7 +152,7 @@ class Stc3xDeviceBase:
             be read out. The read sequence can be aborted after any byte by a NACK and a STOP condition. The
             measurement command should not be triggered more often than once a second.
         """
-        transfer = MeasureGasConcentrationRaw()
+        transfer = self._measurement_command
         return execute_transfer(self._channel, transfer)
 
     def forced_recalibration(self, reference_concentration):

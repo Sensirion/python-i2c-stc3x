@@ -17,10 +17,10 @@ binary gases.
 
 ## Supported sensor types
 
-| Sensor name   | I²C Addresses  |
-| ------------- | -------------- |
-|[STC31-C](https://sensirion.com/products/catalog/STC31)| **0x29**|
-|[STC31](https://sensirion.com/products/catalog/STC31)| **0x29**|
+| Sensor name                                             | I²C Addresses |
+|---------------------------------------------------------|---------------|
+| [STC31-C](https://sensirion.com/products/catalog/STC31) | **0x29**      |
+| [STC31](https://sensirion.com/products/catalog/STC31)   | **0x29**      |
 
 The following instructions and examples use a *STC31-C*.
 
@@ -29,20 +29,19 @@ The following instructions and examples use a *STC31-C*.
 ## Connect the sensor
 
 You can connect your sensor over a [SEK-SensorBridge](https://developer.sensirion.com/sensirion-products/sek-sensorbridge/).
-For special setups you find the sensor pinout in the section below.
+For special setups, you find the sensor pinout in the section below.
 
 <details><summary>Sensor pinout</summary>
 <p>
 <img src="https://raw.githubusercontent.com/Sensirion/python-i2c-stc3x/master/images/stc3x-pinout.png"
      width="300px" alt="sensor wiring picture">
 
-| *Pin* | *Cable Color* | *Name* | *Description*  | *Comments* |
-|-------|---------------|:------:|----------------|------------|
-| 1 | red | VDD | Supply Voltage | 2.7V to 5.5V
-| 2 | yellow | SCL | I2C: Serial clock input |
-| 3 | black | GND | Ground |
-| 4 | green | SDA | I2C: Serial data input / output |
-
+| *Pin* | *Cable Color* | *Name* | *Description*                   | *Comments*   |
+|-------|---------------|:------:|---------------------------------|--------------|
+| 1     | red           |  VDD   | Supply Voltage                  | 2.7V to 5.5V |
+| 2     | yellow        |  SCL   | I2C: Serial clock input         |              |
+| 3     | black         |  GND   | Ground                          |              |
+| 4     | green         |  SDA   | I2C: Serial data input / output |              |
 
 </p>
 </details>

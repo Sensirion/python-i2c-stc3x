@@ -28,12 +28,9 @@ with LinuxI2cTransceiver(args.i2c_port) as i2c_transceiver:
     time.sleep(0.014)
 
     #     Output the product identifier and serial number
-    (product_id, serial_number
-     ) = sensor.get_product_id()
-    print(f"Product id = {product_id}"
-          )
-    print(f"Serial Number = {serial_number}"
-          )
+    (product_id, serial_number) = sensor.get_product_id()
+    print(f"Product id = {product_id}")
+    print(f"Serial Number = {serial_number}")
 
     #     Measure STC31-C CO2 in air in range 0% - 40%
     #     or STC31 CO2 in air in range 0% - 25%
@@ -55,7 +52,5 @@ with LinuxI2cTransceiver(args.i2c_port) as i2c_transceiver:
          ) = sensor.measure_gas_concentration()
 
         #     Print CO2 concentration in Vol% and temperature in degree celsius.
-        print(f"CO2 concentration = {co2_concentration}"
-              )
-        print(f"Temperature = {temperature}"
-              )
+        print(f"CO2 concentration = {co2_concentration}")
+        print(f"Temperature = {temperature}")

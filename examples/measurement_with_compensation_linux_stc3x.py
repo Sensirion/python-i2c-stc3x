@@ -9,11 +9,18 @@
 # Product:       stc3x
 # Model-Version: 1.0.0
 #
-
+# This example requires the sht4x Python driver. You can
+# install it with pip install sensirion-i2c-sht4x or
+# sepcify the examples section when installing this driver
+# with pip install sensirion-i2c-stc3[examples]~=1.0.0
+#
 import argparse
 import time
-from sensirion_i2c_driver import LinuxI2cTransceiver, I2cConnection, CrcCalculator
+
 from sensirion_driver_adapters.i2c_adapter.i2c_channel import I2cChannel
+from sensirion_i2c_driver import LinuxI2cTransceiver, I2cConnection, CrcCalculator
+from sensirion_i2c_sht4x.device import Sht4xDevice
+
 from sensirion_i2c_stc3x.device import Stc3xDevice
 
 parser = argparse.ArgumentParser()
@@ -21,40 +28,43 @@ parser.add_argument('--i2c-port', '-p', default='/dev/i2c-1')
 args = parser.parse_args()
 
 with LinuxI2cTransceiver(args.i2c_port) as i2c_transceiver:
-    channel = I2cChannel(I2cConnection(i2c_transceiver),
-                         slave_address=0x29,
-                         crc=CrcCalculator(8, 0x31, 0xff, 0x0))
-    sensor = Stc3xDevice(channel)
+    i2c_transceiver = I2cConnection(i2c_transceiver)
+    stc3x_channel = I2cChannel(i2c_transceiver,
+                               slave_address=0x29,
+                               crc=CrcCalculator(8, 0x31, 0xff, 0x0))
+    sht4x_channel = I2cChannel(i2c_transceiver,
+                               slave_address=0x44,
+                               crc=CrcCalculator(8, 0x31, 0xff, 0x0))
+    stc3x_sensor = Stc3xDevice(stc3x_channel)
+    sht4x_sensor = Sht4xDevice(sht4x_channel)
     time.sleep(0.014)
 
-    #     Output the product identifier and serial number
-    (product_id, serial_number
-     ) = sensor.get_product_id()
-    print(f"Product id = {product_id}"
-          )
-    print(f"Serial Number = {serial_number}"
-          )
+    # Output serial number for sht4x sensor
+    sht4x_serial_number = sht4x_sensor.serial_number()
+    print(f"SHT4x Serial Number = {sht4x_serial_number}")
 
-    #     Measure STC31-C CO2 in air in range 0% - 40%
-    #     or STC31 CO2 in air in range 0% - 25%
-    sensor.set_binary_gas(19)
+    # Output the product identifier and serial number
+    (stc3x_product_id, stc3x_serial_number) = stc3x_sensor.get_product_id()
+    print(f"STC3x Product id = {stc3x_product_id}")
+    print(f"STC3x Serial Number = {stc3x_serial_number}")
 
-    #     TODO: Setup SHT4x sensor
+    # Measure STC31-C CO2 in air in range 0% - 40%
+    # or STC31 CO2 in air in range 0% - 25%
+    stc3x_sensor.set_binary_gas(19)
+
     for i in range(100):
-
-        #     Slow down the sampling to 1Hz
+        # Slow down the sampling to 1Hz
         time.sleep(1.0)
 
-        #     Read humidity and temperature from external SHT4x sensor and use
-        #     it for compensation.
-        #     TODO: read SHT4x sensor and use values for compensation
-        sensor.set_relative_humidity(50.0)
-        sensor.set_temperature(50.0)
-        (co2_concentration, temperature
-         ) = sensor.measure_gas_concentration()
+        #  Read humidity and temperature from external SHT4x sensor and use
+        # it for compensation.
+        sht4x_temperature, sht4x_humidity = sht4x_sensor.measure_high_precision()
+
+        stc3x_sensor.set_relative_humidity(sht4x_humidity.value)
+        stc3x_sensor.set_temperature(sht4x_temperature.value)
+
+        (co2_concentration, stc3x_temperature) = stc3x_sensor.measure_gas_concentration()
 
         #     Print CO2 concentration in Vol% and temperature in degree celsius.
-        print(f"CO2 concentration = {co2_concentration}"
-              )
-        print(f"Temperature = {temperature}"
-              )
+        print(f"CO2 concentration = {co2_concentration}")
+        print(f"STC3x Temperature = {stc3x_temperature}")
