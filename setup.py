@@ -14,7 +14,7 @@ install_requires = [
     'sensirion-i2c-driver>=1.0.0,<2.0',
     'sensirion-driver-adapters>=2.1.9,<3.0',
     'sensirion-driver-support-types~=0.2.0',
-    'sensirion-shdlc-sensorbridge~=0.2.0'
+    'sensirion-shdlc-sensorbridge>=0.1.1,<0.3.0'
 ]
 
 # Packages required for tests and docs
@@ -29,6 +29,9 @@ extras_require = {
         'jinja2==3.0.1',
         'sphinx~=4.2.0',
         'sphinx-rtd-theme~=0.5.2',
+    ],
+    'examples': [
+        'sensirion-i2c-sht4x~=1.0.0'
     ]
 }
 

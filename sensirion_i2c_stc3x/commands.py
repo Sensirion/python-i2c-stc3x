@@ -14,8 +14,8 @@ The transfer classes specify the data that is transferred between host and senso
 are used by the driver class and not intended for direct use.
 """
 
-from sensirion_driver_adapters.transfer import Transfer
 from sensirion_driver_adapters.rx_tx_data import TxData, RxData
+from sensirion_driver_adapters.transfer import Transfer
 from sensirion_driver_support_types.bitfield import BitField, BitfieldContainer
 
 
@@ -112,7 +112,7 @@ class SetPressure(Transfer):
     tx = TxData(CMD_ID, '>HH', device_busy_delay=0.001, slave_address=None, ignore_ack=False)
 
 
-class MeasureGasConcentrationRaw(Transfer):
+class MeasureGasConcentrationRawFast(Transfer):
     """
     The measurement of gas concentration is done in one measurement in a single shot, and takes less
     than 66ms. When measurement data is available, it can be read out by sending an I2C read header and
@@ -131,7 +131,30 @@ class MeasureGasConcentrationRaw(Transfer):
     def pack(self):
         return self.tx_data.pack([])
 
-    tx = TxData(CMD_ID, '>H', device_busy_delay=0.07, slave_address=None, ignore_ack=False)
+    tx = TxData(CMD_ID, '>H', device_busy_delay=0.066, slave_address=None, ignore_ack=False)
+    rx = RxData('>HH')
+
+
+class MeasureGasConcentrationRawSlow(Transfer):
+    """
+    The measurement of gas concentration is done in one measurement in a single shot, and takes less
+    than 66ms. When measurement data is available, it can be read out by sending an I2C read header and
+    reading out the data from the sensor. If no measurement data is available yet, the sensor will
+    respond with a NACK on the I2C read header.
+    In case the ‘Set temperature command’ has been used prior to the measurement command, the
+    temperature value given out by the STC3x will be that one of the ‘Set temperature command’. When the
+    ‘Set temperature command’ has not been used, the internal temperature value can be read out.
+    During product development it is recommended to compare the internal temperature value of the STC3x
+    and the temperature value of the SHTxx, to check whether both sensors are properly thermally
+    coupled. The values must be within 0.7°C.
+    """
+
+    CMD_ID = 0x3639
+
+    def pack(self):
+        return self.tx_data.pack([])
+
+    tx = TxData(CMD_ID, '>H', device_busy_delay=0.11, slave_address=None, ignore_ack=False)
     rx = RxData('>HH')
 
 
