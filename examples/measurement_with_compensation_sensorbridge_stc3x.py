@@ -72,3 +72,5 @@ with ShdlcSerialPort(port=args.serial_port, baudrate=460800) as port:
         #     Print CO2 concentration in Vol% and temperature in degree celsius.
         print(f"CO2 concentration = {co2_concentration}")
         print(f"STC3x Temperature = {stc3x_temperature}")
+        print(f"SHT4x Temperature = {sht4x_temperature}")
+        print(f"Temperature Delta = {stc3x_temperature.value - sht4x_temperature.value:.2f}")
