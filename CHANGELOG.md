@@ -3,13 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
-
-### Added
-- Serial print of SHT4x temperature and temperature
-  difference between STC3x and SHT4x to compensation
-  example.
-
+## [Unreleased] 
 
 ## [1.0.0] - 2024-3-4
 
@@ -18,7 +12,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update to latest driver framework
 - Improve documentation
 - Add support for STC31-C
-
 ## [0.1.0] - 2021-3-3
 
 ### Added
