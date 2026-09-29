@@ -17,10 +17,10 @@ binary gases.
 
 ## Supported sensor types
 
-| Sensor name                                             | I²C Addresses |
-|---------------------------------------------------------|---------------|
-| [STC31-C](https://sensirion.com/products/catalog/STC31) | **0x29**      |
-| [STC31](https://sensirion.com/products/catalog/STC31)   | **0x29**      |
+| Sensor name   | I²C Addresses  |
+| ------------- | -------------- |
+|[STC31-C](https://sensirion.com/products/catalog/STC31)| **0x29**|
+|[STC31](https://sensirion.com/products/catalog/STC31)| **0x29**|
 
 The following instructions and examples use a *STC31-C*.
 
@@ -29,19 +29,20 @@ The following instructions and examples use a *STC31-C*.
 ## Connect the sensor
 
 You can connect your sensor over a [SEK-SensorBridge](https://developer.sensirion.com/product-support/sek-sensorbridge/).
-For special setups, you find the sensor pinout in the section below.
+For special setups you find the sensor pinout in the section below.
 
 <details><summary>Sensor pinout</summary>
 <p>
 <img src="https://raw.githubusercontent.com/Sensirion/python-i2c-stc3x/master/images/stc3x-pinout.png"
      width="300px" alt="sensor wiring picture">
 
-| *Pin* | *Cable Color* | *Name* | *Description*                   | *Comments*   |
-|-------|---------------|:------:|---------------------------------|--------------|
-| 1     | red           |  VDD   | Supply Voltage                  | 2.7V to 5.5V |
-| 2     | yellow        |  SCL   | I2C: Serial clock input         |              |
-| 3     | black         |  GND   | Ground                          |              |
-| 4     | green         |  SDA   | I2C: Serial data input / output |              |
+| *Pin* | *Cable Color* | *Name* | *Description*  | *Comments* |
+|-------|---------------|:------:|----------------|------------|
+| 1 | red | VDD | Supply Voltage | 2.7V to 5.5V
+| 2 | yellow | SCL | I2C: Serial clock input |
+| 3 | black | GND | Ground |
+| 4 | green | SDA | I2C: Serial data input / output |
+
 
 </p>
 </details>
@@ -50,33 +51,12 @@ For special setups, you find the sensor pinout in the section below.
 ## Documentation & Quickstart
 
 See the [documentation page](https://sensirion.github.io/python-i2c-stc3x) for an API description and a
-[quickstart](https://sensirion.github.io/python-i2c-stc3x/execute-measurements.html) example.
+[quickstart](https://sensirion.github.io/python-i2c-stc3x/quickstart.html) example.
 
 
 ## Contributing
 
-We develop and test this driver using our company internal tools (version
-control, continuous integration, code review etc.) and automatically
-synchronize the `master` branch with GitHub. But this doesn't mean that we
-don't respond to issues or don't accept pull requests on GitHub. In fact,
-you're very welcome to open issues or create pull requests :-)
-
-### Check coding style
-
-The coding style can be checked with [`flake8`](http://flake8.pycqa.org/):
-
-```bash
-pip install -e .[test]  # Install requirements
-flake8                  # Run style check
-```
-
-In addition, we check the formatting of files with
-[`editorconfig-checker`](https://editorconfig-checker.github.io/):
-
-```bash
-pip install editorconfig-checker==2.0.3   # Install requirements
-editorconfig-checker                      # Run check
-```
+In case you want to contribute to this project, please read the [contribution guidelines]((https://sensirion.github.io/python-i2c-stc3x/contributing.html)).
 
 ## License
 
